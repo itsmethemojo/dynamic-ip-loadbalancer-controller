@@ -1,0 +1,29 @@
+app:
+  serviceAccount:
+    name: external-ip-updater
+    # do not use  the service account from the dependency chart
+    create: false
+  service:
+    enabled: false
+  image:
+    repository: buildpack-deps
+    tag: curl
+  env:
+    # -- version of kubectl binary to be downloaded when sarting the container, https://dl.k8s.io/release/v$KUBECTL_BINARY_VERSION/bin/linux/$KUBECTL_BINARY_ARCH/kubectl
+    KUBECTL_BINARY_VERSION: 1.33.3
+    # -- architecture kubectl binary to be downloaded when starting the container, https://dl.k8s.io/release/v$KUBECTL_BINARY_VERSION/bin/linux/$KUBECTL_BINARY_ARCH/kubectl
+    KUBECTL_BINARY_ARCH: amd64
+    # -- intervall the current external ip is fetched via https://ifconfig.me/ip
+    DETERMINE_EXERNAL_IP_INTERVALL: "450"
+  livenessProbe: ""
+  readinessProbe: ""
+  command:
+    - bash
+    - /scripts/update_ip.sh
+  extraVolumeMounts :
+    - mountPath: /scripts
+      name: scripts
+  extraVolumes:
+    - configMap:
+        name: external-ip-updater
+      name: scripts
