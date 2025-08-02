@@ -1,0 +1,6 @@
+dependencies:
+- name: basic-web-app
+  repository: https://itsmethemojo.github.io/helm-charts/
+  version: 1.2.1
+digest: sha256:f42cd6cb1f5780816618f77a52a5762468fa502a6371f120c820f907be3e8be4
+generated: "2025-07-31T23:25:35.072471354+02:00"
